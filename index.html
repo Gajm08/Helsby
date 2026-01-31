@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+<title>Helsby Walkthrough Tour</title>
+<style>
+  :root { --bg:#000; --fg:#fff; --muted:rgba(255,255,255,.75); --card:rgba(0,0,0,.55); }
+  html,body{height:100%; margin:0; background:var(--bg); color:var(--fg); font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;}
+  #app{height:100%; display:flex; flex-direction:column;}
+  header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:10px 12px; gap:10px; background:rgba(0,0,0,.65); backdrop-filter: blur(6px);
+    position:sticky; top:0; z-index:10;
+  }
+  header .title{font-weight:700; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  header .sub{font-size:12px; color:var(--muted);}
+  header .btn{
+    border:1px solid rgba(255,255,255,.25); background:rgba(255,255,255,.08);
+    color:var(--fg); padding:8px 10px; border-radius:10px; font-size:13px;
+  }
+  #viewerWrap{flex:1; position:relative; overflow:hidden; touch-action:none;}
+  #viewer{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+  #photo{
+    max-width:none; max-height:none;
+    transform-origin: 0 0;
+    will-change: transform;
+    user-select:none; -webkit-user-drag:none;
+  }
+  #loading{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    background:rgba(0,0,0,.7); z-index:9; font-size:14px; color:var(--muted);
+  }
+  #hud{
+    position:absolute; left:10px; right:10px; top:10px;
+    display:flex; justify-content:space-between; pointer-events:none;
+    z-index:8;
+  }
+  .chip{
+    pointer-events:auto;
+    background:var(--card); border:1px solid rgba(255,255,255,.18);
+    padding:8px 10px; border-radius:12px; font-size:12px; color:var(--fg);
+  }
+  .nav{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:space-between;
+    padding:0 6px; z-index:7; pointer-events:none;
+  }
+  .nav button{
+    pointer-events:auto;
+    width:52px; height:52px; border-radius:26px; border:1px solid rgba(255,255,255,.25);
+    background:rgba(0,0,0,.45); color:#fff; font-size:22px;
+  }
+  #thumbs{
+    display:flex; gap:8px; overflow-x:auto; padding:10px;
+    background:rgba(0,0,0,.65); backdrop-filter: blur(6px);
+    border-top:1px solid rgba(255,255,255,.12);
+  }
+  #thumbs img{
+    width:68px; height:48px; object-fit:cover; border-radius:10px;
+    border:2px solid transparent; opacity:.9;
+  }
+  #thumbs img.active{ border-color: rgba(255,255,255,.85); opacity:1; }
+  /* Floorplan modal */
+  #modal{
+    position:fixed; inset:0; background:rgba(0,0,0,.85); display:none; z-index:50;
+    align-items:center; justify-content:center; padding:14px;
+  }
+  #modal .panel{
+    width:min(980px, 100%); max-height:92vh;
+    background:rgba(10,10,10,.9); border:1px solid rgba(255,255,255,.18);
+    border-radius:16px; overflow:hidden; display:flex; flex-direction:column;
+  }
+  #modal .panel header{ position:relative; top:auto; }
+  #floorWrap{ position:relative; flex:1; overflow:auto; }
+  #floorImg{ width:100%; height:auto; display:block; }
+  #floorNote{
+    position:absolute; left:12px; bottom:12px;
+    background:rgba(0,0,0,.55); border:1px solid rgba(255,255,255,.18);
+    padding:8px 10px; border-radius:12px; font-size:12px;
+  }
+  /* Helpful hint */
+  #hint{
+    position:absolute; left:10px; bottom:70px; z-index:6;
+    background:rgba(0,0,0,.45); border:1px solid rgba(255,255,255,.18);
+    padding:8px 10px; border-radius:12px; font-size:12px; color:var(--muted);
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div style="min-width:0">
+      <div class="title">Helsby Walkthrough</div>
+      <div class="sub" id="subline">Loading…</div>
+    </div>
+    <button class="btn" id="btnFloor">Floorplan</button>
+  </header>
+
+  <div id="viewerWrap">
+    <div id="viewer">
+      <img id="photo" alt="tour photo"/>
+    </div>
+
+    <div id="loading">Loading images…</div>
+
+    <div id="hud">
+      <div class="chip" id="chipLeft">Stop</div>
+      <div class="chip" id="chipRight">Pinch to zoom • Drag to pan</div>
+    </div>
+
+    <div class="nav">
+      <button id="prev" aria-label="Previous">‹</button>
+      <button id="next" aria-label="Next">›</button>
+    </div>
+
+    <div id="hint">Tip: swipe left/right anywhere to change rooms.</div>
+  </div>
+
+  <div id="thumbs" aria-label="Thumbnails"></div>
+</div>
+
+<!-- Floorplan Modal -->
+<div id="modal" role="dialog" aria-modal="true">
+  <div class="panel">
+    <header>
+      <div style="min-width:0">
+        <div class="title">Floorplan</div>
+        <div class="sub" id="floorSub">Tap a thumbnail below to jump to that stop.</div>
+      </div>
+      <button class="btn" id="btnClose">Close</button>
+    </header>
+    <div id="floorWrap">
+      <img id="floorImg" alt="floorplan"/>
+      <div id="floorNote">Current: <span id="floorCurrent"></span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const photo = $("#photo");
+  const loading = $("#loading");
+  const thumbs = $("#thumbs");
+  const subline = $("#subline");
+  const chipLeft = $("#chipLeft");
+  const floorImg = $("#floorImg");
+  const modal = $("#modal");
+  const floorCurrent = $("#floorCurrent");
+
+  let manifest = null;
+  let idx = 0;
+
+  // Pan/zoom state
+  let scale = 1, minScale = 1, maxScale = 4;
+  let tx = 0, ty = 0;
+  let imgW = 0, imgH = 0;
+  let viewW = 0, viewH = 0;
+
+  const pointers = new Map();
+  let lastPinchDist = null;
+  let lastPinchMid = null;
+
+  function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+
+  function updateViewportSize(){
+    const r = $("#viewerWrap").getBoundingClientRect();
+    viewW = r.width; viewH = r.height;
+  }
+
+  function computeFit(){
+    updateViewportSize();
+    // Fit image to viewport
+    const s = Math.min(viewW / imgW, viewH / imgH);
+    minScale = s;
+    scale = s;
+    // Center
+    tx = (viewW - imgW * scale) / 2;
+    ty = (viewH - imgH * scale) / 2;
+    applyTransform();
+  }
+
+  function applyTransform(){
+    // Bound pan so image can't be dragged too far offscreen
+    const w = imgW * scale;
+    const h = imgH * scale;
+    const minTx = Math.min(0, viewW - w);
+    const minTy = Math.min(0, viewH - h);
+    const maxTx = Math.max(0, viewW - w);
+    const maxTy = Math.max(0, viewH - h);
+    // If image smaller than viewport, allow centering range
+    if (w < viewW) tx = (viewW - w)/2;
+    else tx = clamp(tx, minTx, maxTx);
+    if (h < viewH) ty = (viewH - h)/2;
+    else ty = clamp(ty, minTy, maxTy);
+    photo.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+  }
+
+  function setStop(newIdx){
+    if (!manifest) return;
+    idx = (newIdx + manifest.images.length) % manifest.images.length;
+    const item = manifest.images[idx];
+    subline.textContent = `${item.label} • ${idx+1}/${manifest.images.length}`;
+    chipLeft.textContent = `${item.label} (${idx+1}/${manifest.images.length})`;
+    floorCurrent.textContent = item.label;
+
+    // highlight thumbs
+    [...thumbs.querySelectorAll("img")].forEach((t, i) => {
+      t.classList.toggle("active", i === idx);
+      if (i === idx) {
+        // keep active thumb in view
+        t.scrollIntoView({behavior:"smooth", inline:"center", block:"nearest"});
+      }
+    });
+
+    // load image
+    loading.style.display = "flex";
+    const img = new Image();
+    img.onload = () => {
+      photo.src = item.src;
+      imgW = img.naturalWidth;
+      imgH = img.naturalHeight;
+      computeFit();
+      loading.style.display = "none";
+    };
+    img.onerror = () => {
+      loading.textContent = "Couldn’t load this photo. Please refresh.";
+      loading.style.display = "flex";
+    };
+    img.src = item.src;
+  }
+
+  function buildThumbs(){
+    thumbs.innerHTML = "";
+    manifest.images.forEach((it, i) => {
+      const t = document.createElement("img");
+      t.src = it.src;
+      t.alt = it.label;
+      t.loading = "lazy";
+      t.addEventListener("click", () => setStop(i));
+      thumbs.appendChild(t);
+    });
+  }
+
+  // Swipe navigation
+  let swipeStartX = null, swipeStartY = null;
+  $("#viewerWrap").addEventListener("touchstart", (e) => {
+    if (e.touches.length === 1) {
+      swipeStartX = e.touches[0].clientX;
+      swipeStartY = e.touches[0].clientY;
+    } else {
+      swipeStartX = swipeStartY = null;
+    }
+  }, {passive:true});
+
+  $("#viewerWrap").addEventListener("touchend", (e) => {
+    if (swipeStartX == null) return;
+    const touch = e.changedTouches[0];
+    const dx = touch.clientX - swipeStartX;
+    const dy = touch.clientY - swipeStartY;
+    const absX = Math.abs(dx), absY = Math.abs(dy);
+    // horizontal swipe (ignore if it was mostly vertical)
+    if (absX > 60 && absX > absY * 1.3) {
+      if (dx < 0) setStop(idx+1);
+      else setStop(idx-1);
+    }
+    swipeStartX = swipeStartY = null;
+  }, {passive:true});
+
+  // Buttons
+  $("#prev").addEventListener("click", () => setStop(idx-1));
+  $("#next").addEventListener("click", () => setStop(idx+1));
+
+  // Floorplan modal
+  $("#btnFloor").addEventListener("click", () => { modal.style.display="flex"; });
+  $("#btnClose").addEventListener("click", () => { modal.style.display="none"; });
+  modal.addEventListener("click", (e) => { if (e.target === modal) modal.style.display="none"; });
+
+  // Pointer-based pan/zoom (works with touch + mouse)
+  const wrap = $("#viewerWrap");
+
+  function onPointerDown(e){
+    wrap.setPointerCapture(e.pointerId);
+    pointers.set(e.pointerId, {x:e.clientX, y:e.clientY});
+    lastPinchDist = null;
+    lastPinchMid = null;
+  }
+  function onPointerMove(e){
+    if (!pointers.has(e.pointerId)) return;
+    const prev = pointers.get(e.pointerId);
+    pointers.set(e.pointerId, {x:e.clientX, y:e.clientY});
+
+    if (pointers.size === 1) {
+      // pan
+      const dx = e.clientX - prev.x;
+      const dy = e.clientY - prev.y;
+      tx += dx;
+      ty += dy;
+      applyTransform();
+    } else if (pointers.size === 2) {
+      // pinch zoom
+      const pts = [...pointers.values()];
+      const dx = pts[0].x - pts[1].x;
+      const dy = pts[0].y - pts[1].y;
+      const dist = Math.hypot(dx, dy);
+      const mid = {x:(pts[0].x+pts[1].x)/2, y:(pts[0].y+pts[1].y)/2};
+
+      if (lastPinchDist != null) {
+        const delta = dist / lastPinchDist;
+        const newScale = clamp(scale * delta, minScale, maxScale);
+
+        // zoom towards midpoint
+        const mx = mid.x;
+        const my = mid.y;
+        // Convert screen point to image-space before zoom
+        const ix = (mx - tx) / scale;
+        const iy = (my - ty) / scale;
+
+        scale = newScale;
+        tx = mx - ix * scale;
+        ty = my - iy * scale;
+        applyTransform();
+      }
+      lastPinchDist = dist;
+      lastPinchMid = mid;
+    }
+  }
+  function onPointerUp(e){
+    pointers.delete(e.pointerId);
+    if (pointers.size < 2) { lastPinchDist = null; lastPinchMid = null; }
+  }
+
+  wrap.addEventListener("pointerdown", onPointerDown);
+  wrap.addEventListener("pointermove", onPointerMove);
+  wrap.addEventListener("pointerup", onPointerUp);
+  wrap.addEventListener("pointercancel", onPointerUp);
+
+  // Also support double tap to reset fit
+  let lastTap = 0;
+  wrap.addEventListener("click", () => {
+    const now = Date.now();
+    if (now - lastTap < 300) computeFit();
+    lastTap = now;
+  });
+
+  // Load manifest
+  fetch("manifest.json", {cache:"no-store"})
+    .then(r => r.json())
+    .then(m => {
+      manifest = m;
+      floorImg.src = m.floorplan;
+      buildThumbs();
+      setStop(0);
+      $("#hint").style.display = "block";
+      setTimeout(() => $("#hint").style.display = "none", 5000);
+    })
+    .catch(() => {
+      loading.textContent = "Couldn’t load tour files. Please refresh.";
+      loading.style.display = "flex";
+    });
+
+  window.addEventListener("resize", () => { if (imgW) computeFit(); });
+})();
+</script>
+</body>
+</html>

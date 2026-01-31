@@ -1,0 +1,311 @@
+{
+  "floorplan": "assets/floorplan.jpg",
+  "images": [
+    {
+      "id": 1,
+      "src": "assets/img001.jpg",
+      "label": "Stop 1",
+      "orig": "Screenshot_20260131_092246_Rightmove.jpg"
+    },
+    {
+      "id": 2,
+      "src": "assets/img002.jpg",
+      "label": "Stop 2",
+      "orig": "Screenshot_20260131_092249_Rightmove.jpg"
+    },
+    {
+      "id": 3,
+      "src": "assets/img003.jpg",
+      "label": "Stop 3",
+      "orig": "Screenshot_20260131_092251_Rightmove.jpg"
+    },
+    {
+      "id": 4,
+      "src": "assets/img004.jpg",
+      "label": "Stop 4",
+      "orig": "Screenshot_20260131_092253_Rightmove.jpg"
+    },
+    {
+      "id": 5,
+      "src": "assets/img005.jpg",
+      "label": "Stop 5",
+      "orig": "Screenshot_20260131_092255_Rightmove.jpg"
+    },
+    {
+      "id": 6,
+      "src": "assets/img006.jpg",
+      "label": "Stop 6",
+      "orig": "Screenshot_20260131_092258_Rightmove.jpg"
+    },
+    {
+      "id": 7,
+      "src": "assets/img007.jpg",
+      "label": "Stop 7",
+      "orig": "Screenshot_20260131_092300_Rightmove.jpg"
+    },
+    {
+      "id": 8,
+      "src": "assets/img008.jpg",
+      "label": "Stop 8",
+      "orig": "Screenshot_20260131_092302_Rightmove.jpg"
+    },
+    {
+      "id": 9,
+      "src": "assets/img009.jpg",
+      "label": "Stop 9",
+      "orig": "Screenshot_20260131_092304_Rightmove.jpg"
+    },
+    {
+      "id": 10,
+      "src": "assets/img010.jpg",
+      "label": "Stop 10",
+      "orig": "Screenshot_20260131_092306_Rightmove.jpg"
+    },
+    {
+      "id": 11,
+      "src": "assets/img011.jpg",
+      "label": "Stop 11",
+      "orig": "Screenshot_20260131_092309_Rightmove.jpg"
+    },
+    {
+      "id": 12,
+      "src": "assets/img012.jpg",
+      "label": "Stop 12",
+      "orig": "Screenshot_20260131_092311_Rightmove.jpg"
+    },
+    {
+      "id": 13,
+      "src": "assets/img013.jpg",
+      "label": "Stop 13",
+      "orig": "Screenshot_20260131_092313_Rightmove.jpg"
+    },
+    {
+      "id": 14,
+      "src": "assets/img014.jpg",
+      "label": "Stop 14",
+      "orig": "Screenshot_20260131_092315_Rightmove.jpg"
+    },
+    {
+      "id": 15,
+      "src": "assets/img015.jpg",
+      "label": "Stop 15",
+      "orig": "Screenshot_20260131_092318_Rightmove.jpg"
+    },
+    {
+      "id": 16,
+      "src": "assets/img016.jpg",
+      "label": "Stop 16",
+      "orig": "Screenshot_20260131_092320_Rightmove.jpg"
+    },
+    {
+      "id": 17,
+      "src": "assets/img017.jpg",
+      "label": "Stop 17",
+      "orig": "Screenshot_20260131_092323_Rightmove.jpg"
+    },
+    {
+      "id": 18,
+      "src": "assets/img018.jpg",
+      "label": "Stop 18",
+      "orig": "Screenshot_20260131_092326_Rightmove.jpg"
+    },
+    {
+      "id": 19,
+      "src": "assets/img019.jpg",
+      "label": "Stop 19",
+      "orig": "Screenshot_20260131_092328_Rightmove.jpg"
+    },
+    {
+      "id": 20,
+      "src": "assets/img020.jpg",
+      "label": "Stop 20",
+      "orig": "Screenshot_20260131_092330_Rightmove.jpg"
+    },
+    {
+      "id": 21,
+      "src": "assets/img021.jpg",
+      "label": "Stop 21",
+      "orig": "Screenshot_20260131_092333_Rightmove.jpg"
+    },
+    {
+      "id": 22,
+      "src": "assets/img022.jpg",
+      "label": "Stop 22",
+      "orig": "Screenshot_20260131_092335_Rightmove.jpg"
+    },
+    {
+      "id": 23,
+      "src": "assets/img023.jpg",
+      "label": "Stop 23",
+      "orig": "Screenshot_20260131_092337_Rightmove.jpg"
+    },
+    {
+      "id": 24,
+      "src": "assets/img024.jpg",
+      "label": "Stop 24",
+      "orig": "Screenshot_20260131_092339_Rightmove.jpg"
+    },
+    {
+      "id": 25,
+      "src": "assets/img025.jpg",
+      "label": "Stop 25",
+      "orig": "Screenshot_20260131_092343_Rightmove.jpg"
+    },
+    {
+      "id": 26,
+      "src": "assets/img026.jpg",
+      "label": "Stop 26",
+      "orig": "Screenshot_20260131_092346_Rightmove.jpg"
+    },
+    {
+      "id": 27,
+      "src": "assets/img027.jpg",
+      "label": "Stop 27",
+      "orig": "HRT017337028_01.jpg"
+    },
+    {
+      "id": 28,
+      "src": "assets/img028.jpg",
+      "label": "Stop 28",
+      "orig": "HRT017337028_02.jpg"
+    },
+    {
+      "id": 29,
+      "src": "assets/img029.jpg",
+      "label": "Stop 29",
+      "orig": "HRT017337028_03.jpg"
+    },
+    {
+      "id": 30,
+      "src": "assets/img030.jpg",
+      "label": "Stop 30",
+      "orig": "HRT017337028_04.jpg"
+    },
+    {
+      "id": 31,
+      "src": "assets/img031.jpg",
+      "label": "Stop 31",
+      "orig": "HRT017337028_05.jpg"
+    },
+    {
+      "id": 32,
+      "src": "assets/img032.jpg",
+      "label": "Stop 32",
+      "orig": "HRT017337028_06.jpg"
+    },
+    {
+      "id": 33,
+      "src": "assets/img033.jpg",
+      "label": "Stop 33",
+      "orig": "HRT017337028_07.jpg"
+    },
+    {
+      "id": 34,
+      "src": "assets/img034.jpg",
+      "label": "Stop 34",
+      "orig": "HRT017337028_08.jpg"
+    },
+    {
+      "id": 35,
+      "src": "assets/img035.jpg",
+      "label": "Stop 35",
+      "orig": "HRT017337028_09.jpg"
+    },
+    {
+      "id": 36,
+      "src": "assets/img036.jpg",
+      "label": "Stop 36",
+      "orig": "HRT017337028_10.jpg"
+    },
+    {
+      "id": 37,
+      "src": "assets/img037.jpg",
+      "label": "Stop 37",
+      "orig": "HRT017337028_11.jpg"
+    },
+    {
+      "id": 38,
+      "src": "assets/img038.jpg",
+      "label": "Stop 38",
+      "orig": "HRT017337028_12.jpg"
+    },
+    {
+      "id": 39,
+      "src": "assets/img039.jpg",
+      "label": "Stop 39",
+      "orig": "HRT017337028_13.jpg"
+    },
+    {
+      "id": 40,
+      "src": "assets/img040.jpg",
+      "label": "Stop 40",
+      "orig": "HRT017337028_14.jpg"
+    },
+    {
+      "id": 41,
+      "src": "assets/img041.jpg",
+      "label": "Stop 41",
+      "orig": "HRT017337028_15.jpg"
+    },
+    {
+      "id": 42,
+      "src": "assets/img042.jpg",
+      "label": "Stop 42",
+      "orig": "HRT017337028_16.jpg"
+    },
+    {
+      "id": 43,
+      "src": "assets/img043.jpg",
+      "label": "Stop 43",
+      "orig": "HRT017337028_17.jpg"
+    },
+    {
+      "id": 44,
+      "src": "assets/img044.jpg",
+      "label": "Stop 44",
+      "orig": "HRT017337028_18.jpg"
+    },
+    {
+      "id": 45,
+      "src": "assets/img045.jpg",
+      "label": "Stop 45",
+      "orig": "HRT017337028_19.jpg"
+    },
+    {
+      "id": 46,
+      "src": "assets/img046.jpg",
+      "label": "Stop 46",
+      "orig": "HRT017337028_20.jpg"
+    },
+    {
+      "id": 47,
+      "src": "assets/img047.jpg",
+      "label": "Stop 47",
+      "orig": "HRT017337028_21.jpg"
+    },
+    {
+      "id": 48,
+      "src": "assets/img048.jpg",
+      "label": "Stop 48",
+      "orig": "HRT017337028_22.jpg"
+    },
+    {
+      "id": 49,
+      "src": "assets/img049.jpg",
+      "label": "Stop 49",
+      "orig": "HRT017337028_23.jpg"
+    },
+    {
+      "id": 50,
+      "src": "assets/img050.jpg",
+      "label": "Stop 50",
+      "orig": "HRT017337028_24.jpg"
+    },
+    {
+      "id": 51,
+      "src": "assets/img051.jpg",
+      "label": "Stop 51",
+      "orig": "HRT017337028_26.jpg"
+    }
+  ]
+}
